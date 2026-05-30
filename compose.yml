@@ -1,12 +1,15 @@
 version: "3.9"
 
 services:
+
   devopsdb:
     image: elishababoddu2615/automation:db
     ports:
       - "3306:3306"
     deploy:
-      replicas: 3
+      replicas: 1
+      restart_policy:
+        condition: any
     networks:
       - mynetwork
 
@@ -16,6 +19,11 @@ services:
       - "1111:8080"
     deploy:
       replicas: 3
+      restart_policy:
+        condition: any
+      update_config:
+        parallelism: 1
+        delay: 10s
     depends_on:
       - devopsdb
     networks:
